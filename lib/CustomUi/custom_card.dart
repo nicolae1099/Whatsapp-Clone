@@ -13,7 +13,8 @@ class CustomCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => IndividualChat()),
+          MaterialPageRoute(
+              builder: (context) => IndividualChat(chatModel: chatModel)),
         );
       },
       child: Column(
