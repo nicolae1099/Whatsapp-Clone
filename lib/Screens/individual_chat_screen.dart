@@ -163,7 +163,15 @@ class _IndividualPageState extends State<IndividualChat> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              context: context,
+                                              builder: (builder) =>
+                                                  bottomSheet(),
+                                            );
+                                          },
                                           icon: const Icon(Icons.attach_file),
                                         ),
                                         IconButton(
@@ -240,6 +248,89 @@ class _IndividualPageState extends State<IndividualChat> {
               tabIndicatorAnimDuration: kTabScrollDuration,
               categoryIcons: const CategoryIcons(),
               buttonMode: ButtonMode.MATERIAL)),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 278,
+      width: MediaQuery.of(context).size.width,
+      child: Card(
+        margin: EdgeInsets.all(18),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  iconCreation(
+                      Icons.insert_drive_file, Colors.indigo, "Document"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  iconCreation(Icons.camera_alt, Colors.pink, "Cameră foto"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  iconCreation(Icons.insert_photo, Colors.purple, "Galerie"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  iconCreation(Icons.headset, Colors.orange, "Audio"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  iconCreation(Icons.location_pin, Colors.green, "Locație"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  iconCreation(Icons.person, Colors.blue, "Contact"),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget iconCreation(IconData iconData, Color color, String text) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: color,
+            child: Icon(
+              iconData,
+              size: 29,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
