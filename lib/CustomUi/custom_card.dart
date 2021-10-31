@@ -22,10 +22,6 @@ class CustomCard extends StatelessWidget {
           ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.blueGrey,
-              // child: Icon(
-              //   Icons.people,
-              //   size: 32,
-              // ),
               child: SvgPicture.asset(
                 chatModel.icon,
                 color: Colors.white,

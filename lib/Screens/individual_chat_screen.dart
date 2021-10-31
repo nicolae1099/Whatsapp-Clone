@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:whatsapp_clone/Constants/constants.dart';
@@ -12,6 +15,36 @@ class IndividualChat extends StatefulWidget {
 }
 
 class _IndividualPageState extends State<IndividualChat> {
+  FocusNode focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
+  bool emojiShowing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        setState(() {
+          emojiShowing = false;
+        });
+      }
+    });
+  }
+
+  _onEmojiSelected(Emoji emoji) {
+    _controller
+      ..text += emoji.emoji
+      ..selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length));
+  }
+
+  _onBackspacePressed() {
+    _controller
+      ..text = _controller.text.characters.skipLast(1).toString()
+      ..selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,62 +125,108 @@ class _IndividualPageState extends State<IndividualChat> {
             ListView(),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Row(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Card(
-                      margin:
-                          const EdgeInsets.only(left: 2, right: 2, bottom: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                        minLines: 1,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Type a message",
-                            prefixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.emoji_emotions),
-                            ),
-                            suffixIcon: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.attach_file),
+                  Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: Card(
+                          margin: const EdgeInsets.only(
+                              left: 2, right: 2, bottom: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: TextFormField(
+                            focusNode: focusNode,
+                            textAlignVertical: TextAlignVertical.center,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
+                            minLines: 1,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Type a message",
+                                prefixIcon: IconButton(
+                                  onPressed: () {
+                                    focusNode.unfocus();
+                                    focusNode.canRequestFocus = false;
+                                    setState(() {
+                                      emojiShowing = !emojiShowing;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.emoji_emotions),
                                 ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.camera_alt),
+                                suffixIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.attach_file),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.camera_alt),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            contentPadding: EdgeInsets.all(10)),
+                                contentPadding: EdgeInsets.all(10)),
+                          ),
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 8, right: 5, left: 2),
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: const Color(0xFF075E54),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.mic),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 8, right: 5, left: 2),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: const Color(0xFF075E54),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.mic),
-                      ),
-                    ),
-                  )
+                  emojiShowing ? emojiSelect() : Container(),
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget emojiSelect() {
+    return SizedBox(
+      height: 250,
+      child: EmojiPicker(
+        onEmojiSelected: (category, emoji) {
+          //print(emoji);
+        },
+        config: Config(
+            columns: 7,
+            emojiSizeMax: 32 *
+                (Platform.isIOS
+                    ? 1.30
+                    : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
+            verticalSpacing: 0,
+            horizontalSpacing: 0,
+            initCategory: Category.RECENT,
+            bgColor: Color(0xFFF2F2F2),
+            indicatorColor: Colors.blue,
+            iconColor: Colors.grey,
+            iconColorSelected: Colors.blue,
+            progressIndicatorColor: Colors.blue,
+            showRecentsTab: true,
+            recentsLimit: 28,
+            noRecentsText: "No Recents",
+            noRecentsStyle:
+                const TextStyle(fontSize: 20, color: Colors.black26),
+            tabIndicatorAnimDuration: kTabScrollDuration,
+            categoryIcons: const CategoryIcons(),
+            buttonMode: ButtonMode.MATERIAL),
       ),
     );
   }
