@@ -11,6 +11,11 @@ class Constants {
   static const String muteNotifications = 'Notificări fără sunet';
   static const String background = 'Fundal';
 
+  static const String inviteFriend = 'Invitați un prieten';
+  static const String contacts = 'Contacte';
+  static const String refresh = 'Reîmprospătați';
+  static const String help = 'Ajutor';
+
   static const List<String> choices = <String>[
     newGroup,
     newBroadcast,
@@ -25,5 +30,12 @@ class Constants {
     search,
     muteNotifications,
     background,
+  ];
+
+  static const List<String> selectContactChoices = <String>[
+    inviteFriend,
+    contacts,
+    refresh,
+    help,
   ];
 }
