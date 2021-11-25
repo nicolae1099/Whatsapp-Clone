@@ -5,6 +5,7 @@ class ChatModel {
   String time;
   String currentMessage;
   String status;
+  bool select = false;
   ChatModel({
     required this.name,
     required this.icon,

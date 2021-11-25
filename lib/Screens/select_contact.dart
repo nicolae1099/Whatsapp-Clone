@@ -3,6 +3,7 @@ import 'package:whatsapp_clone/Constants/constants.dart';
 import 'package:whatsapp_clone/CustomUi/button_card.dart';
 import 'package:whatsapp_clone/CustomUi/contact_card.dart';
 import 'package:whatsapp_clone/Model/chat_model.dart';
+import 'package:whatsapp_clone/Screens/create_group.dart';
 
 class SelectContact extends StatefulWidget {
   const SelectContact({Key? key}) : super(key: key);
@@ -143,9 +144,15 @@ class _SelectContactState extends State<SelectContact> {
         itemCount: contacts.length + 2,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return const ButtonCard(
-              icon: Icons.group,
-              name: "Grup nou",
+            return InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => CreateGroup()));
+              },
+              child: const ButtonCard(
+                icon: Icons.group,
+                name: "Grup nou",
+              ),
             );
           } else if (index == 1) {
             return const ButtonCard(
