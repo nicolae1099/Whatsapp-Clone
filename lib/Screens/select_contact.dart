@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/Constants/constants.dart';
-import 'package:whatsapp_clone/CustomUi/contact_cart.dart';
+import 'package:whatsapp_clone/CustomUi/button_card.dart';
+import 'package:whatsapp_clone/CustomUi/contact_card.dart';
 import 'package:whatsapp_clone/Model/chat_model.dart';
 
 class SelectContact extends StatefulWidget {
@@ -14,6 +15,46 @@ class _SelectContactState extends State<SelectContact> {
   @override
   Widget build(BuildContext context) {
     List<ChatModel> contacts = [
+      ChatModel(
+        name: "Iulia",
+        icon: "assets/person.svg",
+        isGroup: false,
+        time: "18:00",
+        currentMessage: "Neataaa. Bubu e cuminte",
+        status: "Status",
+      ),
+      ChatModel(
+        name: "Nic",
+        icon: "assets/person.svg",
+        isGroup: false,
+        time: "18:00",
+        currentMessage: "Neataaa. Pe bune?",
+        status: "Status",
+      ),
+      ChatModel(
+        name: "Startup",
+        icon: "assets/groups.svg",
+        isGroup: false,
+        time: "19:02",
+        currentMessage: "Neataaa. Bubu e cuminte",
+        status: "Status",
+      ),
+      ChatModel(
+        name: "Cristina Telek",
+        icon: "assets/person.svg",
+        isGroup: false,
+        time: "18:00",
+        currentMessage: "Neataaa. Bubu e cuminte",
+        status: "Status",
+      ),
+      ChatModel(
+        name: "Bairam Revelion",
+        icon: "assets/groups.svg",
+        isGroup: false,
+        time: "18:00",
+        currentMessage: "Neataaa. Bubu e cuminte",
+        status: "Status",
+      ),
       ChatModel(
         name: "Iulia",
         icon: "assets/person.svg",
@@ -99,11 +140,20 @@ class _SelectContactState extends State<SelectContact> {
         ],
       ),
       body: ListView.builder(
-        itemCount: contacts.length,
+        itemCount: contacts.length + 2,
         itemBuilder: (context, index) {
-          return ContactCard(
-            contact: contacts[index],
-          );
+          if (index == 0) {
+            return const ButtonCard(
+              icon: Icons.group,
+              name: "Grup nou",
+            );
+          } else if (index == 1) {
+            return const ButtonCard(
+              icon: Icons.person_add,
+              name: "Contact nou",
+            );
+          }
+          return ContactCard(contact: contacts[index - 2]);
         },
       ),
     );
